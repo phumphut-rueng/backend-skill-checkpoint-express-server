@@ -42,7 +42,7 @@ export async function question_IdCheck(req, res, next) {
         });
       }
       
-      req.questionId = questionId;
+      req.question = questionCheck.rows[0];
       next();
     } catch (error) {
       console.log("DB get question by id error", error);

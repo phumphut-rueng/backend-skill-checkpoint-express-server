@@ -98,7 +98,7 @@ questionRouter.get("/:id", async (req, res) => {
     });
 });
 
-questionRouter.put("/:id", async (req, res) => {
+questionRouter.put("/:id", validateQuestion, async (req, res) => {
     const assignmentId = req.params.id;
     const { title,description, category} = req.body;
 
@@ -153,7 +153,7 @@ questionRouter.delete("/:id", async (req, res) => {
 });
 
 questionRouter.post("/:id/answers", question_IdCheck, async (req, res) => {
-    const questionId = req.questionId;
+    const questionId = req.question.id;
     const { content } = req.body;
     if(!content){
         return res.status(400).json({
@@ -188,7 +188,7 @@ questionRouter.post("/:id/answers", question_IdCheck, async (req, res) => {
 });
 
 questionRouter.get("/:id/answers", question_IdCheck,async (req, res) => {
-    const questionId = req.questionId;
+    const questionId = req.question.id;
     let results;
     try {
       results = await connectionPool.query(
@@ -207,7 +207,7 @@ questionRouter.get("/:id/answers", question_IdCheck,async (req, res) => {
   });
 
 questionRouter.delete("/:id/answers/", question_IdCheck, async (req, res) => {
-    const  questionId  = req.questionId;
+    const  questionId  = req.question.id;
 
     let results;
     try {
